@@ -43,6 +43,7 @@ def wrap_url(request, url, conn):
     The URL must be aboslute and include the sessionUuid and server
     """
     url = request.build_absolute_uri(url)
+    url = url.replace("http","https")
     return f"{url}?bsession={conn._sessionUuid}&server=1"
 
 
@@ -58,8 +59,6 @@ def open_with_redirect_to_app(request, conn=None, **kwargs):
 
     project_id = request.GET.get("project")
     csv_url = reverse("omero_biofilefinder_csv", kwargs={"id": project_id})
-    csv_url = csv_url.replace("http","https")
-    csv_url = ("thisisatest")
     csv_url = wrap_url(request, csv_url, conn)
 
     # Including the sessionUuid allows request from BFF to join the session
