@@ -58,6 +58,7 @@ def open_with_redirect_to_app(request, conn=None, **kwargs):
 
     project_id = request.GET.get("project")
     csv_url = reverse("omero_biofilefinder_csv", kwargs={"id": project_id})
+    csv_url = csv_url.replace("http","https")
     csv_url = wrap_url(request, csv_url, conn)
 
     # Including the sessionUuid allows request from BFF to join the session
@@ -147,7 +148,6 @@ def omero_to_csv(request, id, conn=None, **kwargs):
             thumb_url = wrap_url(request, thumb_url, conn)
             image = conn.getObject("Image", image_id)
             image_url = request.build_absolute_uri(reverse("webindex"))
-            image_url = image_url.replace("http","https")
             # we end url with .png so that BFF enables open-with "Browser"
             image_url += f"?show=image-{image_id}&_=.png"
             row = [image_url,
