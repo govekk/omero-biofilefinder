@@ -30,7 +30,7 @@ from omeroweb.decorators import login_required
 from omeroweb.webclient.tree import marshal_annotations
 
 
-#@login_required()
+@login_required()
 def index(request, conn=None, **kwargs):
     # Placeholder index page
     return render(request, "omero_biofilefinder/index.html", {})
@@ -46,7 +46,7 @@ def wrap_url(request, url, conn):
     return f"{url}?bsession={conn._sessionUuid}&server=1"
 
 
-#@login_required()
+@login_required()
 def open_with_redirect_to_app(request, conn=None, **kwargs):
     """
     Open-with > BFF goes here...
@@ -101,7 +101,7 @@ def open_with_redirect_to_app(request, conn=None, **kwargs):
     return HttpResponseRedirect(url)
 
 
-#@login_required()
+@login_required()
 def omero_to_csv(request, id, conn=None, **kwargs):
 
     datasets = conn.getObjects("Dataset", opts={"project": id})
@@ -147,6 +147,7 @@ def omero_to_csv(request, id, conn=None, **kwargs):
             thumb_url = wrap_url(request, thumb_url, conn)
             image = conn.getObject("Image", image_id)
             image_url = request.build_absolute_uri(reverse("webindex"))
+            image_url = image_url.replace("http","https")
             # we end url with .png so that BFF enables open-with "Browser"
             image_url += f"?show=image-{image_id}&_=.png"
             row = [image_url,
