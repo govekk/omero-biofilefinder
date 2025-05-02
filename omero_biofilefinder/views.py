@@ -59,6 +59,7 @@ def open_with_redirect_to_app(request, conn=None, **kwargs):
     project_id = request.GET.get("project")
     csv_url = reverse("omero_biofilefinder_csv", kwargs={"id": project_id})
     csv_url = csv_url.replace("http","https")
+    csv_url = ("thisisatest")
     csv_url = wrap_url(request, csv_url, conn)
 
     # Including the sessionUuid allows request from BFF to join the session
